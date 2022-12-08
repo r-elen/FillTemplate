@@ -69,9 +69,6 @@ def repl_template(templ_name: str, file_name: str, temps: list, info: list):
 
 def main():
 
-    TmpDoc = "Шаблон 1.docx"
-    NameSaveDoc = input("Введите имя выходного документа: ")
-
     tmp_num_doc = re.compile(r"number")
     tmp_date_1 = re.compile(r"date")
     tmp_client_name = re.compile(r"fullname")
@@ -85,15 +82,17 @@ def main():
     date_1 = create_date()
     client_lastname = input("Фамилия: ")
     client_name = input("Имя: ")
-    client_midname = input("Отчество: ")
-    client_full_name = create_full_name(client_lastname, client_name, client_midname)
-    initials = create_initials(client_lastname, client_name, client_midname)
+    client_middname = input("Отчество: ")
+    client_full_name = create_full_name(client_lastname, client_name, client_middname)
+    initials = create_initials(client_lastname, client_name, client_middname)
     address = input("Адрес: ")
     tel = input("Тел.: ")
 
     list_info = [doc_num, date_1, client_full_name, address, initials, tel]
 
-    repl_template(TmpDoc, NameSaveDoc, list_templates, list_info)
+    tmp_doc = "Шаблон 1.docx"
+    name_save_doc = ' '.join(['Договор', doc_num])
+    repl_template(tmp_doc, name_save_doc, list_templates, list_info)
 
 
 if __name__ == '__main__':
