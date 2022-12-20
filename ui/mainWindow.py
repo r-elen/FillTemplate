@@ -1,5 +1,5 @@
-import re
-from PySide6 import QtWidgets
+
+from PySide6 import QtWidgets, QtCore
 
 from ui.form.MainForm import Ui_Form
 import doc.replace2 as r
@@ -14,10 +14,7 @@ class Window(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.initUi()
 
-        self.input_info()
         self.initSignals()
-
-
 
     def initUi(self) -> None:
         """
@@ -25,6 +22,10 @@ class Window(QtWidgets.QWidget):
         :return: None
         """
         self.setWindowTitle("DocCreator")
+        setting = QtCore.QSettings("DocCreator")
+
+        # self.ui.button_savefolder.setPlainText(setting.value("saveFolder", ""))
+        self.ui.input_client_middname.setText("")
 
         # self.ui.but_savingdoc
 
@@ -41,16 +42,8 @@ class Window(QtWidgets.QWidget):
         Инициализация сигнала
         :return: None
         """
-        self.ui.create_doc_event.clicked.connect(self.main())
-        # self.ui.button_savefolder.clicked.connect(self.show_dialog_window)
-
-    # def show_dialog_window(self) -> None:
-    #     """
-    #     Показ выбранного диалогового окна
-    #
-    #     :return: None
-    #     """
-    #     QtWidgets.QMessageBox.about(self, "Уведомление", "Обработка выполнена")
+        self.ui.button_savefolder.clicked.connect(self.chooseFolderButton)
+        self.ui.create_doc_event.clicked.connect(self.createDocButton)
 
     def input_info(self):
         doc_num = r.create_num(self.ui.input_doc_num.text())  # получение данных из строки ввода пользователем
@@ -61,21 +54,23 @@ class Window(QtWidgets.QWidget):
         tel = self.ui.input_tel.text()
         date_1 = r.create_date()
         client_full_name = r.create_full_name(client_lastname, client_name, client_middname)
-        # initials = r.create_initials(client_lastname, client_name, client_middname)
+        initials = r.create_initials(client_lastname, client_name, client_middname)
 
-        list_info = [doc_num, date_1, client_full_name, address,  tel]
+        list_info = [doc_num, date_1, client_full_name, address, initials, tel]
 
         return list_info
 
-    def main(self):
+    def chooseFolderButton(self):
+        pass
+
+    def createDocButton(self):
         list_temps = r.create_template_list()
         list_info = self.input_info()
         tmp_doc = "Шаблон 1.docx"
-        # name_save_doc = ' '.join(['Договор', list_info[0]])
-        name_save_doc = "Договор_test"
+        name_save_doc = ' '.join(['Договор', list_info[0]])
 
         r.repl_template(tmp_doc, name_save_doc, list_temps, list_info)
-
+        QtWidgets.QMessageBox.about(self, "Уведомление", "Обработка выполнена")
 
 
 if __name__ == '__main__':
