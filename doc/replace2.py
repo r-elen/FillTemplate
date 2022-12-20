@@ -72,7 +72,7 @@ def create_template_list():
     tmp_date_1 = re.compile(r"date")
     tmp_client_name = re.compile(r"fullname")
     tmp_address = re.compile(r"address")
-    tmp_initials = re.compile(r"name")
+    tmp_initials = re.compile(r"initials")
     tmp_tel = re.compile(r"tel")
 
     list_templates = [tmp_num_doc, tmp_date_1, tmp_client_name, tmp_address, tmp_initials, tmp_tel]

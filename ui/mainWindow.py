@@ -24,6 +24,8 @@ class Window(QtWidgets.QWidget):
         self.setWindowTitle("DocCreator")
         setting = QtCore.QSettings("DocCreator")
 
+        self.ui.input_client_lastname.setText("")
+        self.ui.input_client_name.setText("")
         self.ui.input_client_middname.setText("")
         self.ui.showsavepath.setText(setting.value("saveFolder", ""))
 
@@ -44,6 +46,9 @@ class Window(QtWidgets.QWidget):
         tel = self.ui.input_tel.text()
         date_1 = r.create_date()
         client_full_name = r.create_full_name(client_lastname, client_name, client_middname)
+
+        if client_name == "":
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Введите имя")
         initials = r.create_initials(client_lastname, client_name, client_middname)
 
         list_info = [doc_num, date_1, client_full_name, address, initials, tel]
@@ -66,10 +71,11 @@ class Window(QtWidgets.QWidget):
         list_temps = r.create_template_list()
         list_info = self.input_info()
         tmp_doc = "Шаблон 1.docx"
-        name_save_doc = ' '.join(['Договор', list_info[0]])
+        name_save_doc = self.ui.showsavepath.text()+' '.join(['\Договор', list_info[0]])
+        print(name_save_doc)
 
         r.repl_template(tmp_doc, name_save_doc, list_temps, list_info)
-        QtWidgets.QMessageBox.about(self, "Уведомление", "Обработка выполнена")
+        QtWidgets.QMessageBox.about(self, "Уведомление", f"Файл сохранен в папку {self.ui.showsavepath.text()}")
 
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         settings = QtCore.QSettings("DocCreator")
