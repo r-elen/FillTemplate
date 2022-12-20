@@ -1,5 +1,5 @@
-
-from PySide6 import QtWidgets, QtCore
+import os.path
+from PySide6 import QtWidgets, QtCore, QtGui
 
 from ui.form.MainForm import Ui_Form
 import doc.replace2 as r
@@ -24,18 +24,8 @@ class Window(QtWidgets.QWidget):
         self.setWindowTitle("DocCreator")
         setting = QtCore.QSettings("DocCreator")
 
-        # self.ui.button_savefolder.setPlainText(setting.value("saveFolder", ""))
         self.ui.input_client_middname.setText("")
-
-        # self.ui.but_savingdoc
-
-    # def initChild(self) -> None:
-    #     """
-    #     Инициализация дочерних окон
-    #     :return: None
-    #     """
-    #     # self.win_2 = ChildWindow() #импорт окна
-    #     pass
+        self.ui.showsavepath.setText(setting.value("saveFolder", ""))
 
     def initSignals(self) -> None:
         """
@@ -60,8 +50,17 @@ class Window(QtWidgets.QWidget):
 
         return list_info
 
-    def chooseFolderButton(self):
-        pass
+    def chooseFolderButton(self) -> None:
+        """
+        Выбор пути к файлу
+
+        :return: None
+        """
+
+        folder_name = QtWidgets.QFileDialog.getExistingDirectory(self, "Выбор папки")
+        if folder_name:
+            folder_name = os.path.abspath(folder_name)
+            self.ui.showsavepath.setText(folder_name)
 
     def createDocButton(self):
         list_temps = r.create_template_list()
@@ -71,6 +70,10 @@ class Window(QtWidgets.QWidget):
 
         r.repl_template(tmp_doc, name_save_doc, list_temps, list_info)
         QtWidgets.QMessageBox.about(self, "Уведомление", "Обработка выполнена")
+
+    def closeEvent(self, event: QtGui.QCloseEvent) -> None:
+        settings = QtCore.QSettings("DocCreator")
+        settings.setValue("saveFolder", self.ui.showsavepath.text())
 
 
 if __name__ == '__main__':
