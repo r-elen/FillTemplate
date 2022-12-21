@@ -34,8 +34,8 @@ class Window(QtWidgets.QWidget):
         Инициализация сигнала
         :return: None
         """
-        self.ui.button_savefolder.clicked.connect(self.chooseFolderButton)
-        self.ui.create_doc_event.clicked.connect(self.createDocButton)
+        self.ui.chooseFolderButton.clicked.connect(self.chooseFolderButton)
+        self.ui.createDocButton.clicked.connect(self.createDocButton)
 
     def input_info(self):
         doc_num = r.create_num(self.ui.input_doc_num.text())  # получение данных из строки ввода пользователем
@@ -80,6 +80,8 @@ class Window(QtWidgets.QWidget):
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         settings = QtCore.QSettings("DocCreator")
         settings.setValue("saveFolder", self.ui.showsavepath.text())
+
+    #   QcheckBox --------------------------
 
 
 if __name__ == '__main__':

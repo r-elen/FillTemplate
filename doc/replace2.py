@@ -3,6 +3,9 @@ from docx import Document
 from datetime import datetime
 
 
+SERVICES  = ["Анализ нормативно-правовой базы и формирование правовой позиции", "Составление проекта",
+             "3", "4", "5", "6",]
+
 def create_num(number: str) -> str:
     d = datetime.today().strftime('%d%m%y')
     return ''.join([d, number])
@@ -93,6 +96,17 @@ def input_info():
 
     list_info = [doc_num, date_1, client_full_name, address, initials, tel]
     return list_info
+
+
+def get_services(services = SERVICES) -> list:
+    """
+    Получение случайного списка имён
+
+    :param count: длина списка
+    :return: список с именами
+    """
+
+    return services
 
 
 def main():
