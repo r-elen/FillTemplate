@@ -1,7 +1,7 @@
 import os.path
 from PySide6 import QtWidgets, QtCore, QtGui
 
-from ui.form.MainForm import Ui_Form
+from ui.form.MainFormCheckbox import Ui_Form
 import doc.replace2 as r
 
 
@@ -82,6 +82,10 @@ class Window(QtWidgets.QWidget):
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         settings = QtCore.QSettings("DocCreator")
         settings.setValue("saveFolder", self.ui.showsavepath.text())
+        self.print_checkable()
+
+    def print_checkable(self):
+        print(self.ui.comboBox_services.checkedItems())
 
 
 if __name__ == '__main__':
