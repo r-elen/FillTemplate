@@ -3,8 +3,9 @@ from docx import Document
 from datetime import datetime
 
 
-SERVICES  = ["Анализ нормативно-правовой базы и формирование правовой позиции", "Составление проекта",
+SERVICES = ["Анализ нормативно-правовой базы и формирование правовой позиции", "Составление проекта",
              "3", "4", "5", "6",]
+
 
 def create_num(number: str) -> str:
     d = datetime.today().strftime('%d%m%y')
