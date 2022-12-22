@@ -87,7 +87,6 @@ class Window(QtWidgets.QWidget):
     def print_checkable(self):
         print(self.ui.comboBox_services.checkedItems())
 
-
 if __name__ == '__main__':
     app = QtWidgets.QApplication()
 
