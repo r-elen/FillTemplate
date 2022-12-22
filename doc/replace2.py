@@ -72,7 +72,7 @@ def repl_template(templ_name: str, file_name: str, temps: list, info: list):
 
 
 def create_template_list():
-    tmp_num_doc = re.compile(r"number")
+    tmp_num_doc = re.compile(r"{(\w+)}")
     tmp_date_1 = re.compile(r"date")
     tmp_client_name = re.compile(r"fullname")
     tmp_address = re.compile(r"address")
