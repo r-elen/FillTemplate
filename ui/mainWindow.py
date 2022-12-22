@@ -29,6 +29,8 @@ class Window(QtWidgets.QWidget):
         self.ui.input_client_middname.setText("")
         self.ui.showsavepath.setText(setting.value("saveFolder", ""))
 
+        self.ui.comboBox_services.addItems(r.SERVICES)
+
     def initSignals(self) -> None:
         """
         Инициализация сигнала
@@ -80,8 +82,6 @@ class Window(QtWidgets.QWidget):
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         settings = QtCore.QSettings("DocCreator")
         settings.setValue("saveFolder", self.ui.showsavepath.text())
-
-    #   QcheckBox --------------------------
 
 
 if __name__ == '__main__':

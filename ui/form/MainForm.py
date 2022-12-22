@@ -19,6 +19,8 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QSpacerItem, QVBoxLayout, QWidget)
 
+import ui.checkable as cb
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -166,10 +168,10 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.label_7)
 
-        self.comboBox_servises = QComboBox(self.groupBox_2)
-        self.comboBox_servises.setObjectName(u"comboBox_servises")
+        self.comboBox_services = cb.QCheckableComboBox(self.groupBox_2)
+        self.comboBox_services.setObjectName(u"comboBox_services")
 
-        self.horizontalLayout_2.addWidget(self.comboBox_servises)
+        self.horizontalLayout_2.addWidget(self.comboBox_services)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
