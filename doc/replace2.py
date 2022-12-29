@@ -71,8 +71,9 @@ def repl_template(templ_name: str, file_name: str, temps: list, info: list):
     open_doc.save(file_name + '.docx')
 
 
+
 def create_template_list():
-    tmp_num_doc = re.compile(r"{(\w+)}")
+    tmp_num_doc = re.compile(r"number")
     tmp_date_1 = re.compile(r"date")
     tmp_client_name = re.compile(r"fullname")
     tmp_address = re.compile(r"address")
@@ -116,8 +117,10 @@ def main():
     list_info = input_info()
 
     tmp_doc = "Шаблон 1.docx"
+
     name_save_doc = ' '.join(['Договор', list_info[0]])
     repl_template(tmp_doc, name_save_doc, list_temps, list_info)
+
 
 
 if __name__ == '__main__':
