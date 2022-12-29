@@ -71,20 +71,43 @@ def repl_template(templ_name: str, file_name: str, temps: list, info: list):
         docx_replace_regex(open_doc, template, info)
     open_doc.save(file_name + '.docx')
 
+def create_template_list(docx_file):
+    """
+    Получение заменяемых переменных из выбранного шаблона
+    :param docx_file: Шаблон документа
+    :return: Словарь из заменяемого слова и его псевдонима
+    """
+    txt = d.process(docx_file)
 
-def input_info():
-    doc_num = create_num(input("№ договора: "))
-    date_1 = create_date()
-    client_lastname = input("Фамилия: ")
-    client_name = input("Имя: ")
-    client_middname = input("Отчество: ")
-    client_full_name = create_full_name(client_lastname, client_name, client_middname)
-    initials = create_initials(client_lastname, client_name, client_middname)
-    address = input("Адрес: ")
-    tel = input("Тел.: ")
+    patterns = re.compile(r"{(\w+)}\[(\w+.?\w+)]")
 
-    list_info = [doc_num, date_1, client_full_name, address, initials, tel]
-    return list_info
+    list_patterns = patterns.findall(str(txt))
+    dict_ = {key: value for key, value in list_patterns}
+
+    return dict_
+
+
+def input_info(dict_tmps: dict):
+    dict_info = {}
+    for key, val in dict_tmps.items():
+        if val == 'Дата':
+            dict_info[key] = create_date()
+        elif val == 'Инициалы':
+            dict_info[key] = ''
+        else:
+            dict_info[key] = input(f"{val}: ")
+
+    if 'initials' in dict_info.keys():
+        last_name = dict_info.get('c_ln')
+        name_letter = dict_info.get('c_n')[0]
+        if dict_info.get('c_middn') == '':
+            dict_info['initials'] = '.'.join([name_letter, last_name])
+        else:
+            middle_name = dict_info.get('c_middn')[0]
+            dict_info['initials'] = '.'.join([name_letter, middle_name, last_name])
+    print(dict_info)
+
+    return dict_info
 
 
 def get_services(services) -> list:
@@ -109,24 +132,12 @@ def main():
     repl_template(tmp_doc, name_save_doc, list_temps, list_info)
 
 
-def create_template_list(docx_file):
-    """
-    Получение заменяемых переменных из выбранного шаблона
-    :param docx_file: Шаблон документа
-    :return: Словарь из заменяемого слова и его псевдонима
-    """
-    txt = d.process(docx_file)
 
-    patterns = re.compile(r"{(\w+)}\[(\w+.?\w+)]")
-
-    list_patterns = patterns.findall(str(txt))
-    dict_ = {key: value for key, value in list_patterns}
-
-    return dict_
 
 
 if __name__ == '__main__':
-    create_template_list(docx_file="Шаблон 1.docx")
+    tmpls = create_template_list(docx_file="Шаблон 1.docx")
+    input_info(tmpls)
 
 
 
