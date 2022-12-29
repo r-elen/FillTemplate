@@ -1,5 +1,6 @@
 import re
 from docx import Document
+import docx2txt as d
 from datetime import datetime
 
 
@@ -71,20 +72,6 @@ def repl_template(templ_name: str, file_name: str, temps: list, info: list):
     open_doc.save(file_name + '.docx')
 
 
-
-def create_template_list():
-    tmp_num_doc = re.compile(r"number")
-    tmp_date_1 = re.compile(r"date")
-    tmp_client_name = re.compile(r"fullname")
-    tmp_address = re.compile(r"address")
-    tmp_initials = re.compile(r"initials")
-    tmp_tel = re.compile(r"tel")
-
-    list_templates = [tmp_num_doc, tmp_date_1, tmp_client_name, tmp_address, tmp_initials, tmp_tel]
-
-    return list_templates
-
-
 def input_info():
     doc_num = create_num(input("№ договора: "))
     date_1 = create_date()
@@ -100,19 +87,19 @@ def input_info():
     return list_info
 
 
-def get_services(services = SERVICES) -> list:
+def get_services(services) -> list:
     """
     Получение случайного списка имён
 
-    :param count: длина списка
+    :param services: длина списка
     :return: список с именами
     """
+    services = SERVICES
 
     return services
 
 
 def main():
-
     list_temps = create_template_list()
     list_info = input_info()
 
@@ -122,10 +109,24 @@ def main():
     repl_template(tmp_doc, name_save_doc, list_temps, list_info)
 
 
+def create_template_list(docx_file):
+    """
+    Получение заменяемых переменных из выбранного шаблона
+    :param docx_file: Шаблон документа
+    :return: Словарь из заменяемого слова и его псевдонима
+    """
+    txt = d.process(docx_file)
+
+    patterns = re.compile(r"{(\w+)}\[(\w+.?\w+)]")
+
+    list_patterns = patterns.findall(str(txt))
+    dict_ = {key: value for key, value in list_patterns}
+
+    return dict_
+
 
 if __name__ == '__main__':
-    main()
-
+    create_template_list(docx_file="Шаблон 1.docx")
 
 
 
