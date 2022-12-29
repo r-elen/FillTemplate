@@ -1,0 +1,11 @@
+docx==0.2.4
+Faker==15.3.4
+lxml==4.9.1
+Pillow==9.3.0
+PySide6==6.4.1
+PySide6-Addons==6.4.1
+PySide6-Essentials==6.4.1
+python-dateutil==2.8.2
+python-docx==0.8.11
+shiboken6==6.4.1
+six==1.16.0
