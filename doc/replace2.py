@@ -61,17 +61,17 @@ def docx_replace_regex(doc_obj, regex, replace):
 
                 if regex.pattern[0] not in inline[i].text:
                     continue
-                # elif regex.search(inline[i].text):
-                #     text = regex.sub(replace, inline[i].text)
-                #     inline[i].text = text
-                #     print(text)
                 elif regex.pattern[1:key_index] in inline[i+1].text:
                     # (когда p.run разбивает по спец символам)
 
-                    print(inline[i].text, regex.pattern[1:key_index])
-
                     text = re.sub(regex.pattern[1:key_index], replace, inline[i+1].text, count=1)
-                    inline[i+1].text = text
+                    inline[i].text = ''
+                    inline[i + 1].text = text
+
+                    for n in range(2, 5):
+                        inline[i + n].text = ''
+
+                    break
 
         for table in doc_obj.tables:
             for row in table.rows:
@@ -135,13 +135,13 @@ def input_info(dict_tmps: dict):
             dict_info[key] = input(f"{val}: ")
 
     if 'initials' in dict_info.keys():
-        last_name = dict_info.get('c_ln')
-        name_letter = dict_info.get('c_n')[0]
+        last_name = dict_info.get('cln')
+        name_letter = dict_info.get('cn')[0]
 
-        if dict_info.get('c_middn') == '':
+        if dict_info.get('cmid') == '':
             dict_info['initials'] = '.'.join([name_letter, last_name])
         else:
-            middle_name = dict_info.get('c_middn')[0]
+            middle_name = dict_info.get('cmid')[0]
             dict_info['initials'] = '.'.join([name_letter, middle_name, last_name])
 
     return dict_info
